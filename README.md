@@ -2,6 +2,8 @@
 
 Ephemeral chat rooms. No history. No traces.
 
+**Demo:** https://c.kotc.ca
+
 ## Privacy by Design
 
 TempChat is built with a simple principle: **if it's not in memory, it doesn't exist.**
