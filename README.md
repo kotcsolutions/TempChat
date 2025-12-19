@@ -68,7 +68,7 @@ docker run -p 3000:3000 tempchat
 kubectl apply -f k8s.yaml
 ```
 
-Image: `ghcr.io/kotcsolutions/tempchat:1.0.0`
+Image: `ghcr.io/kotcsolutions/tempchat:1.1.0`
 
 ## Self-Hosting Notes
 
