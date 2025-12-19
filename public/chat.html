@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TempChat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <header>
+      <a href="/" class="back">&larr;</a>
+      <div class="room-info">
+        <span class="room-code" id="roomCode"></span>
+        <span class="user-count"><span id="userCount">0</span> online</span>
+      </div>
+    </header>
+
+    <div id="messages" class="messages"></div>
+
+    <form id="messageForm" class="message-form">
+      <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" maxlength="1000">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TempChat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>TempChat</h1>
+    <p class="tagline">Ephemeral chat. No history. No traces.</p>
+
+    <div class="actions">
+      <button id="createBtn" class="btn primary">Create Room</button>
+
+      <div class="divider">or</div>
+
+      <div class="join-form">
+        <input type="text" id="codeInput" placeholder="Enter room code" maxlength="4" autocomplete="off">
+        <button id="joinBtn" class="btn">Join</button>
+      </div>
+      <p id="error" class="error"></p>
+    </div>
+  </div>
+
+  <script>
+    const createBtn = document.getElementById('createBtn');
+    const joinBtn = document.getElementById('joinBtn');
+    const codeInput = document.getElementById('codeInput');
+    const error = document.getElementById('error');
+
+    // Auto-uppercase input
+    codeInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase();
+      error.textContent = '';
+    });
+
+    // Create room
+    createBtn.addEventListener('click', async () => {
+      createBtn.disabled = true;
+      try {
+        const res = await fetch('/api/room', { method: 'POST' });
+        const data = await res.json();
+        window.location.href = `/chat.html?room=${data.code}`;
+      } catch (err) {
+        error.textContent = 'Failed to create room';
+        createBtn.disabled = false;
+      }
+    });
+
+    // Join room
+    async function joinRoom() {
+      const code = codeInput.value.trim().toUpperCase();
+      if (code.length !== 4) {
+        error.textContent = 'Code must be 4 characters';
+        return;
+      }
+
+      joinBtn.disabled = true;
+      try {
+        const res = await fetch(`/api/room/${code}`);
+        if (res.ok) {
+          window.location.href = `/chat.html?room=${code}`;
+        } else {
+          error.textContent = 'Room not found';
+          joinBtn.disabled = false;
+        }
+      } catch (err) {
+        error.textContent = 'Connection error';
+        joinBtn.disabled = false;
+      }
+    }
+
+    joinBtn.addEventListener('click', joinRoom);
+    codeInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') joinRoom();
+    });
+  </script>
+</body>
+</html>
